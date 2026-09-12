@@ -5,16 +5,18 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import './globals.css';
 
-// Load body sans font
+
 const inter = Inter({ 
   subsets: ['latin'],
   variable: '--font-sans',
+  display: 'swap',
 });
 
-// Load elegant heading serif font
+
 const playfair = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-serif',
+  display: 'swap', 
 });
 
 export const metadata: Metadata = {

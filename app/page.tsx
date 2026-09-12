@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function LandingPage() {
   return (
     <div className="flex flex-col items-center justify-center py-6 text-center">
-      {/* Hero Header Section */}
+      {/* Hero Section */}
       <header className="max-w-2xl mx-auto mb-10">
         <h2 className="font-serif text-4xl sm:text-5xl font-bold tracking-tight text-[#2c302e] mb-4">
           Welcome to the Ward Sacrament Planner
@@ -15,19 +15,20 @@ export default function LandingPage() {
         </p>
       </header>
 
-      {/* Step 5 Optimized Image: Houston Texas Temple */}
+      
       <div className="w-full max-w-3xl aspect-[16/10] relative rounded-2xl overflow-hidden border border-[#e6e8e6] shadow-sm mb-12 bg-gray-100">
         <Image
           src="/houston-temple.jpg"
-          alt="The serene exterior of the Houston Texas Temple surrounded by bright blue skies and beautiful manicured landscaping"
+          alt="Houston LDS Temple"
           width= {800}
-          height= {500}
+          height= {500}            
           priority
           className="object-cover object-center"
+          sizes="(max-width: 640px) 378px, (max-width: 1024px) 800px, 1200px"
         />
       </div>
 
-      {/* Primary Action Buttons */}
+      
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
         <Link
           href="/meetings"

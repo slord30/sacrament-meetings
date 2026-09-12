@@ -1,4 +1,3 @@
-// app/api/meetings/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { getMeetingById } from '@/lib/meetings-db';
 
@@ -6,19 +5,25 @@ interface RouteParams {
   params: Promise<{ id: string }>;
 }
 
-export async function GET(request: NextRequest, { params }: RouteParams) {
+export async function GET(_request: NextRequest, { params }: RouteParams) {
   const { id } = await params;
-  const meetingId = parseInt(id, 10);
-  
+  const meetingId = Number(id);
+
   if (isNaN(meetingId)) {
-    return NextResponse.json({ error: 'ID parameter must be a valid number' }, { status: 400 });
+    return NextResponse.json({ error: 'Invalid meeting ID profile identifier format' }, { status: 400 });
   }
 
-  const meeting = getMeetingById(meetingId);
-  
-  if (!meeting) {
-    return NextResponse.json({ error: 'Meeting not found' }, { status: 404 });
+  try {
+    // CRITICAL: Await the single item detail result lookup
+    const meeting = await getMeetingById(meetingId);
+
+    if (!meeting) {
+      return NextResponse.json({ error: 'Meeting profile record not found' }, { status: 404 });
+    }
+
+    return NextResponse.json(meeting);
+  } catch (error) {
+    console.error('API Route Detail Lookup Error:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
-  
-  return NextResponse.json(meeting);
 }
