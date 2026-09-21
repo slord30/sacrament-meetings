@@ -1,8 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Subtle Greenery Color Scheme */
+  --bg-cream: #faf9f5;        /* Soft cream page background */
+  --bg-card: #ffffff;         /* Pure white cards */
+  --brand-sage: #8da393;      /* Sage green primary accents */
+  --brand-olive: #5b6e60;     /* Darker soft olive for headings/text highlights */
+  --text-charcoal: #2c302e;   /* Charcoal for maximum readable text */
+  --text-muted: #5e6662;      /* Muted charcoal for descriptions */
+  --border-light: #e6e8e6;    /* Subtle borders */
 }
 
 @theme inline {
@@ -20,7 +26,6 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-cream);
+  color: var(--text-charcoal);
 }
