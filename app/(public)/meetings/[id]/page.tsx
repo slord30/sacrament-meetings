@@ -1,7 +1,7 @@
 // app/(public)/meetings/[id]/page.tsx
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getMeetingById } from '@/lib/meetings-db';
+import { getMeetingById } from '../../../../lib/meetings-db';
 
 interface DetailPageProps {
   params: Promise<{ id: string }>;
@@ -11,7 +11,7 @@ export default async function MeetingDetailPage({ params }: DetailPageProps) {
   const { id } = await params;
   const meetingId = Number(id);
 
-  // CRITICAL PROTECTION GUARD: Prevents alphanumeric values ("new", "current") from crashing Neon Postgres
+  // Prevents alphanumeric values ("new", "current") from crashing Neon Postgres
   if (isNaN(meetingId)) {
     notFound();
     return null;
