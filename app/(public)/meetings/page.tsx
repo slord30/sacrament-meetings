@@ -1,7 +1,7 @@
 // app/(public)/meetings/page.tsx
 import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
-import { getMeetings, getMeetingsTotalPages } from '@/lib/meetings-db';
+import { getMeetings, getMeetingsTotalPages } from '../../../lib/meetings-db';
 
 
 import MeetingSearch from '../../../components/MeetingSearch';
