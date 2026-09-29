@@ -1,6 +1,12 @@
-import NavLinks from './NavLinks';
+// components/Header.tsx
 
-export default function Header() {
+import NavLinks from './NavLinks';
+import { auth } from '@/auth'; // Fetch server authentication data
+
+export default async function Header() {
+  // Grab the live authentication session securely from the server runtime
+  const session = await auth();
+
   // Dynamically format today's date safely
   const today = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
@@ -22,7 +28,8 @@ export default function Header() {
           </p>
         </div>
         
-        <NavLinks />
+        {/* Pass the server session object straight down into your client wrapper */}
+        <NavLinks session={session} />
       </div>
     </header>
   );

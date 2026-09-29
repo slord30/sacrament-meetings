@@ -1,4 +1,4 @@
-//lib/actions.ts
+// lib/actions.ts
 
 'use server';
 
@@ -6,6 +6,8 @@ import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { addMeeting, updateMeetingInDb, deleteMeetingFromDb } from './meetings-db';
+import { signIn } from '@/auth'; // Added for Auth.js
+import { AuthError } from 'next-auth'; // Added for error checking
 
 // Zod Schema to validate un-typed text elements submitted from client forms
 const MeetingFormSchema = z.object({
@@ -60,7 +62,6 @@ export async function createMeeting(prevState: State, formData: FormData): Promi
       closingPrayer: data.closingPrayer,
     });
   } catch (error) {
-    // Log the error to server console and throw user-friendly message
     console.error('Database Error inside createMeeting action:', error);
     throw new Error('Database Error: Unable to save your sacrament meeting schedule.');
   }
@@ -96,7 +97,6 @@ export async function updateMeeting(id: number, prevState: State, formData: Form
       closingPrayer: data.closingPrayer,
     });
   } catch (error) {
-    // Log the error to server console and throw user-friendly message
     console.error(`Database Error inside updateMeeting action for ID ${id}:`, error);
     throw new Error('Database Error: Unable to update this sacrament meeting agenda.');
   }
@@ -110,7 +110,6 @@ export async function deleteMeeting(id: number) {
   try {
     await deleteMeetingFromDb(id);
   } catch (error) {
-    // Log the error to server console and throw user-friendly message
     console.error(`Database Error inside deleteMeeting action for ID ${id}:`, error);
     throw new Error('Database Error: Unable to remove this sacrament meeting record.');
   }
@@ -118,4 +117,35 @@ export async function deleteMeeting(id: number) {
   revalidatePath('/meetings');
 }
 
+// ==========================================
+// Authentication Action (Added for W05 Assignment)
+// ==========================================
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  try {
+    // Triggers the hardcoded Credentials provider built in auth.ts
+    await signIn('credentials', formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.';
+        default:
+          return 'Something went wrong.';
+      }
+    }
+    throw error; 
+  }
+}
 
+// ==========================================
+// Sign Out Action 
+// ==========================================
+import { signOut } from '@/auth'; 
+
+export async function handleSignOut() {
+  
+  await signOut({ redirectTo: '/' });
+}
